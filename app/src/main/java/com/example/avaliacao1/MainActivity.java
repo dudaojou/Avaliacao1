@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.avaliacao1.pacote.Caminhao;
 import com.example.avaliacao1.pacote.DistanciaTempo;
 import com.example.avaliacao1.pacote.Google;
+import com.example.avaliacao1.pacote.Localizacao;
 
 import java.util.ArrayList;
 
@@ -69,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
         buttonComecar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(caminhao != null) {
+                    double latAjuda = caminhao.getLocalizacao().getLat();
+                    double longAjuda = caminhao.getLocalizacao().getLog();
+
                     caminhao.getLocalizacao().setTempo(System.currentTimeMillis() / 1000);
-                    caminhao.setLocInicial(caminhao.getLocalizacao());
+                    caminhao.setLocInicial(new Localizacao(longAjuda,latAjuda,0));
                     caminhao.getGps().setContaa(1);
                 }
             }

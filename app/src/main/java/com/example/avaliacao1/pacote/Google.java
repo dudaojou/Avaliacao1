@@ -71,8 +71,8 @@ public class Google extends AsyncTask<Object, String, String> {
     public String getDiferenca()
     {
         String googleUrl = "https://maps.googleapis.com/maps/api/directions/json?"+
-                //"origin="+c.getLocInicial().getLat()+","+c.getLocInicial().getLog()+ ISSSOOOO ESTA ERRRADDDDDOOOOOOOO CARALHO <3
-                "origin="+"-21.4623344"+"," + "-45.0123579"+
+                "origin="+c.getLocInicial().getLat()+","+c.getLocInicial().getLog()+
+                //"origin="+"-21.4623344"+"," + "-45.0123579"+
                 "&destination="+c.getLocalizacao().getLat()+","+c.getLocalizacao().getLog()+
                 "&key="+GOOGLE_KEY;
 
