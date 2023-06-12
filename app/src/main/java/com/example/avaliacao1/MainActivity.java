@@ -95,12 +95,10 @@ public class MainActivity extends AppCompatActivity {
         if(!ok) {
             distTotal = a1.get(0).getDistancia();
             tempoTotal = a1.get(0).getTempo();
-            Log.d("xaxx:", distTotal +" "+ tempoTotal );
         }
         else{
             distPercorrida = a1.get(0).getDistancia();
             tempoPercorrido = (System.currentTimeMillis() / 1000.0) - tempoInicial;
-            Log.d("xbxx:", distPercorrida +" "+ tempoPercorrido );
         }
     }
     public double getConsumoComb(double velocidade){
