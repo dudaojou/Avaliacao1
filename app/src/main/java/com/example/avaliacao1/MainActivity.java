@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonComecar;
     private double distTotal;
     private double tempoTotal;
-
     private double distPercorrida;
     private double tempoPercorrido;
 
@@ -39,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
     Caminhao caminhao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Context context = MainActivity.this;
@@ -63,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 //caminhao.getLocalizacao().setTempo(System.currentTimeMillis() / 1000);
                 tempoInicial = System.currentTimeMillis() / 1000.0;
                 caminhao.start();
-
             }
         } );
 
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 textViewVelocidade.setText(String.valueOf(caminhao.getVelocidade()));
                 textViewTempoDesl.setText(String.valueOf(tempoTotal));
                 textViewDisPer.setText(String.valueOf(distTotal));
-                textViewConsumoCom.setText(String.valueOf(distPercorrida));
+                textViewConsumoCom.setText(String.valueOf(getConsumoComb(caminhao.getVelocidade())));
                 textViewVelEsperada.setText(String.valueOf(tempoPercorrido));
             }
         });
@@ -107,6 +102,24 @@ public class MainActivity extends AppCompatActivity {
             tempoPercorrido = (System.currentTimeMillis() / 1000.0) - tempoInicial;
             Log.d("xbxx:", distPercorrida +" "+ tempoPercorrido );
         }
+    }
+    public double getConsumoComb(double velocidade){
+            double velocidadeAux = 0.0;
+
+            if (velocidade <= 0) {
+                velocidadeAux = 0.0;
+            } else if (velocidade <= 60) {
+                velocidadeAux = 0.1;
+            } else if (velocidade <= 100) {
+                velocidadeAux = 0.15;
+            } else {
+                velocidadeAux = 0.2;
+            }
+            double consumoCombustivel = velocidade * velocidadeAux;
+
+            return consumoCombustivel;
+    }
+    public void getA1(ArrayList<DistanciaTempo> a1) {
 
     }
 }

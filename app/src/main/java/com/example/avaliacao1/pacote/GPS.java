@@ -91,10 +91,10 @@ public class GPS {
                     caminhao.getLocalizacao().setLog(location.getLongitude());
                     caminhao.setVelocidade(location.getSpeed());
                     //-21.2503589,-44.9925135
-                    Google g = new Google(caminhao.getLocalizacao().getLat(), caminhao.getLocalizacao().getLog(), -21.2317572,-44.9947798,context);
+                    Google g = new Google(caminhao.getLocalizacao().getLat(), caminhao.getLocalizacao().getLog(),-21.233123122974124, -45.00440558347713 ,context);
                     g.execute();
                     if(contaa != 0) {
-                        g = new Google(caminhao.getLocInicial().getLat(),caminhao.getLocInicial().getLog(),caminhao.getLocalizacao().getLat(),
+                           g = new Google(caminhao.getLocInicial().getLat(),caminhao.getLocInicial().getLog(),caminhao.getLocalizacao().getLat(),
                                       caminhao.getLocalizacao().getLog(), context, caminhao);
                         g.execute();
                     }
