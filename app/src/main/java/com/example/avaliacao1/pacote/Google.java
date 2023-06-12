@@ -31,6 +31,8 @@ import javax.xml.transform.dom.DOMLocator;
 public class Google extends AsyncTask<Object, String, String> {
 
     private static final String GOOGLE_KEY = "AIzaSyA5ru77oglQe-IObSSQ1fQY61Nxk5QIuWw" ;
+    private Caminhao c;
+    private boolean verdadeiro ;
     private double latitude;
     private double longitude;
     private double latitudeFinal;
@@ -43,6 +45,17 @@ public class Google extends AsyncTask<Object, String, String> {
         this.latitudeFinal = latitudeFinal;
         this.longitudeFinal = longitudeFinal;
         this.context = context;
+        this.verdadeiro = false;
+    }
+
+    public Google(double latitude, double longitude, double latitudeAtual, double longitudeAtual, Context context, Caminhao c) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.latitudeFinal = latitudeAtual;
+        this.longitudeFinal = longitudeAtual;
+        this.context = context;
+        this.verdadeiro = true;
+        this.c = c;
     }
 
     private String getUrl()
@@ -55,13 +68,29 @@ public class Google extends AsyncTask<Object, String, String> {
         return googleUrl.toString();
     }
 
+    public String getDiferenca()
+    {
+        String googleUrl = "https://maps.googleapis.com/maps/api/directions/json?"+
+                //"origin="+c.getLocInicial().getLat()+","+c.getLocInicial().getLog()+ ISSSOOOO ESTA ERRRADDDDDOOOOOOOO CARALHO <3
+                "origin="+"-21.4623344"+"," + "-45.0123579"+
+                "&destination="+c.getLocalizacao().getLat()+","+c.getLocalizacao().getLog()+
+                "&key="+GOOGLE_KEY;
+
+        return googleUrl.toString();
+    }
+
     public String readUrl() throws IOException {
         StringBuilder data = new StringBuilder();
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
         try {
-            URL url = new URL(getUrl());
+            URL url;
+            if(verdadeiro == false) {
+                url = new URL(getUrl());
+            }else {
+                url = new URL(getDiferenca());
+            }
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.connect();
 
@@ -99,12 +128,13 @@ public class Google extends AsyncTask<Object, String, String> {
 
     @Override
     protected String doInBackground(Object... objects) {
-        ArrayList<DistanciaTempo> a1 = (ArrayList<DistanciaTempo>) placedurationspaces();
+            ArrayList<DistanciaTempo> a1 = (ArrayList<DistanciaTempo>) placedurationspaces();
 
-        if (context instanceof MainActivity){
-            ((MainActivity) context).setDistTempo(a1);
-        }
-        inicializarRec(a1);
+            if (context instanceof MainActivity) {
+                    ((MainActivity) context).setDistTempo(a1,verdadeiro);
+            }
+            inicializarRec(a1);
+
         return null;
     }
     public List<DistanciaTempo> placedurationspaces() {
@@ -165,6 +195,8 @@ public class Google extends AsyncTask<Object, String, String> {
         Reconciliacao rec = new Reconciliacao(dt);
         rec.start();
     }
-
+    public void setVerdadeiro(boolean verdadeiro) {
+        this.verdadeiro = verdadeiro;
+    }
 
 }

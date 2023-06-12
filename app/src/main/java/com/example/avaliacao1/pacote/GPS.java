@@ -29,6 +29,11 @@ public class GPS {
     private LocationCallback locationCallback;
     private Location currentLocation;
     private Context context;
+    private int contaa = 0;
+
+    public void setContaa(int contaa) {
+        this.contaa = contaa;
+    }
 
     public GPS(Context context) {
         this.context = context;
@@ -39,9 +44,9 @@ public class GPS {
 
     }
 
-    public void inicializarGPS(Caminhao caminhao) {
+    public void inicializarGPS(Caminhao caminhao, int cont) {
         if (hasLocationPermission()) {
-            atualizacaoGPS(caminhao);
+            atualizacaoGPS(caminhao, cont);
             startLocationUpdates();
         } else requestLocationPermission();
     }
@@ -72,7 +77,7 @@ public class GPS {
         return false;
     }
 
-    public void atualizacaoGPS(Caminhao caminhao){
+    public void atualizacaoGPS(Caminhao caminhao, int cont){
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -85,6 +90,14 @@ public class GPS {
                     caminhao.getLocalizacao().setLat(location.getLatitude());
                     caminhao.getLocalizacao().setLog(location.getLongitude());
                     caminhao.setVelocidade(location.getSpeed());
+                    //-21.2503589,-44.9925135
+                    Google g = new Google(caminhao.getLocalizacao().getLat(), caminhao.getLocalizacao().getLog(), -21.2317572,-44.9947798,context);
+                    g.execute();
+                    if(contaa != 0) {
+                        g = new Google(caminhao.getLocInicial().getLat(),caminhao.getLocInicial().getLog(),caminhao.getLocalizacao().getLat(),
+                                      caminhao.getLocalizacao().getLog(), context, caminhao);
+                        g.execute();
+                    }
                     Log.d("latidudeamor", String.valueOf(caminhao.getLocalizacao().getLat()) + String.valueOf(caminhao.getLocalizacao().getLog()));
                     ((MainActivity) context).atualizarTextos();
                 }

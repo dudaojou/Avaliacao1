@@ -2,29 +2,36 @@ package com.example.avaliacao1.pacote;
 
 import android.content.Context;
 
-import com.example.avaliacao1.MainActivity;
-
 public class Caminhao extends Thread{
+
+    private int cont;
     private double velocidade;
     private String nome;
     private Localizacao localizacao;
     private GPS gps;
     private Context context;
     private Localizacao locInicial;
+    int conta = 0;
 
+    public GPS getGps() {
+        return gps;
+    }
 
+    public void setConta(int conta) {
+        this.conta = conta;
+    }
 
-    public Caminhao(Context context) {
+    public Caminhao(Context context, int cont) {
         this.context = context;
         gps = new GPS(context);
         localizacao = new Localizacao(0,0,0);
-
+        this.cont = cont;
     }
 
     @Override
     public void run(){
-        gps.inicializarGPS(this);
-        gps.atualizacaoGPS(this);
+        gps.inicializarGPS(this, cont);
+        gps.atualizacaoGPS(this,cont);
     }
 
     public double getVelocidade() {
@@ -57,5 +64,9 @@ public class Caminhao extends Thread{
 
     public void setLocInicial(Localizacao locInicial) {
         this.locInicial = locInicial;
+    }
+
+    public void setCont(int cont) {
+        this.cont = cont;
     }
 }
