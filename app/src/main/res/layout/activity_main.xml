@@ -12,12 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="32dp"
         android:text="0"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/id_ConsumoCom"
+        app:layout_constraintTop_toBottomOf="@+id/id_Velocidade"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -28,11 +28,11 @@
         android:layout_marginTop="16dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="Velocidade Esperado:"
+        android:text="Velocidade Esperada:"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -72,19 +72,6 @@
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/id_DisPer"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/id_ConsumoCom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
-        android:text="0"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/id_Velocidade"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -194,7 +181,20 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/id_ConsumoCom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="50dp"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/id_VelEsperada"
         tools:ignore="MissingConstraints" />
 
     <TextView
