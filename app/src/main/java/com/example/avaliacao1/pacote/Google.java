@@ -131,7 +131,6 @@ public class Google extends AsyncTask<Object, String, String> {
             ArrayList<DistanciaTempo> a1 = (ArrayList<DistanciaTempo>) placedurationspaces();
             if (context instanceof MainActivity) {
                     ((MainActivity) context).setDistTempo(a1,verdadeiro);
-                    ((MainActivity) context).getA1(a1);
             }
             inicializarRec(a1);
 

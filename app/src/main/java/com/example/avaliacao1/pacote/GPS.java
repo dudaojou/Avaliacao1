@@ -44,9 +44,9 @@ public class GPS {
 
     }
 
-    public void inicializarGPS(Caminhao caminhao, int cont) {
+    public void inicializarGPS(Caminhao caminhao) {
         if (hasLocationPermission()) {
-            atualizacaoGPS(caminhao, cont);
+            atualizacaoGPS(caminhao);
             startLocationUpdates();
         } else requestLocationPermission();
     }
@@ -77,16 +77,13 @@ public class GPS {
         return false;
     }
 
-    public void atualizacaoGPS(Caminhao caminhao, int cont){
+    public void atualizacaoGPS(Caminhao caminhao){
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 // localização atual
                 Location location = locationResult.getLastLocation();
-                Log.d("entrei","entreiaqui");
                 if (location != null) {
-                    // Faça algo com a localização
-                    Log.d("testando latitude ", String.valueOf(location.getLatitude())+ String.valueOf(location.getLongitude()));
                     caminhao.getLocalizacao().setLat(location.getLatitude());
                     caminhao.getLocalizacao().setLog(location.getLongitude());
                     caminhao.setVelocidade(location.getSpeed());
@@ -98,7 +95,6 @@ public class GPS {
                                       caminhao.getLocalizacao().getLog(), context, caminhao);
                         g.execute();
                     }
-                    Log.d("latidudeamor", String.valueOf(caminhao.getLocalizacao().getLat()) + String.valueOf(caminhao.getLocalizacao().getLog()));
                     ((MainActivity) context).atualizarTextos();
                 }
             }

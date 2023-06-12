@@ -8,11 +8,37 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/id_VelEsperada"
+        android:id="@+id/textView6"
+        android:layout_width="164dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Tempo Percorrido:"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/id_TemPerc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/id_TempoDesl"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/id_VelEsperada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="42dp"
         android:text="0"
         android:textColor="#000000"
         android:textSize="16sp"
@@ -53,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="82dp"
         android:text="0"
         android:textColor="#000000"
         android:textSize="16sp"
@@ -161,7 +187,7 @@
         android:layout_width="164dp"
         android:layout_height="27dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="72dp"
         android:text="Velocidade:"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -189,7 +215,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:text="0"
         android:textColor="#000000"
         android:textSize="16sp"

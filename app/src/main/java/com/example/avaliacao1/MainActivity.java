@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewLat;
     private TextView textViewDisPer;
     private TextView textViewTempoDesl;
+    private TextView textViewTemPerc;
     private TextView textViewConsumoCom;
     private TextView textViewVelocidade;
     private TextView textViewVelEsperada;
@@ -33,19 +34,17 @@ public class MainActivity extends AppCompatActivity {
 
     private double tempoInicial;
 
-
-    private int cont;
     Caminhao caminhao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Context context = MainActivity.this;
-        cont = 0;
         textViewLong = findViewById(R.id.id_Long);
         textViewLat = findViewById(R.id.id_Lat);
         textViewDisPer = findViewById(R.id.id_DisPer);
         textViewTempoDesl = findViewById(R.id.id_TempoDesl);
+        textViewTemPerc = findViewById(R.id.id_TemPerc);
         textViewConsumoCom = findViewById(R.id.id_ConsumoCom);
         textViewVelocidade = findViewById(R.id.id_Velocidade);
         buttonIniciar = findViewById(R.id.id_Iniciar);
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         buttonIniciar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Context threadContext = MainActivity.this;
-                caminhao= new Caminhao(context,cont);
+                caminhao= new Caminhao(context);
                 //caminhao.getLocalizacao().setTempo(System.currentTimeMillis() / 1000);
                 tempoInicial = System.currentTimeMillis() / 1000.0;
                 caminhao.start();
@@ -86,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 textViewTempoDesl.setText(String.valueOf(tempoTotal));
                 textViewDisPer.setText(String.valueOf(distTotal));
                 textViewConsumoCom.setText(String.valueOf(getConsumoComb(caminhao.getVelocidade())));
-                textViewVelEsperada.setText(String.valueOf(tempoPercorrido));
+                textViewVelEsperada.setText(String.valueOf(caminhao.getVelocidade()));
+                textViewTemPerc.setText(String.valueOf(tempoPercorrido));
             }
         });
     }
@@ -118,8 +118,5 @@ public class MainActivity extends AppCompatActivity {
             double consumoCombustivel = velocidade * velocidadeAux;
 
             return consumoCombustivel;
-    }
-    public void getA1(ArrayList<DistanciaTempo> a1) {
-
     }
 }
