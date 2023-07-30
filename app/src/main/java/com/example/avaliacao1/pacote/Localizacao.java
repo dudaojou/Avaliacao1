@@ -36,4 +36,9 @@ public class Localizacao {
     public void setTempo(long tempo) {
         this.tempo = tempo;
     }
+
+    @Override
+    public String toString(){
+        return Double.toString(getLog()) + "/" + Double.toString(getLat()) + "/" + Long.toString(getTempo());
+    }
 }

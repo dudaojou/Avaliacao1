@@ -1,14 +1,17 @@
 package com.example.avaliacao1.mensagens;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import android.os.Build;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
 public class CriptografiaAES {
 
-    private static final String chave = "chave_secreta_para_AES";
+    private static final String chave = "chave";
     private static final String vetorInicializacao = "vetor_inicializacao"; // Deve ter 16 caracteres para AES-128
 
     public static String criptografar(String mensagem) {
@@ -19,7 +22,9 @@ public class CriptografiaAES {
             cipher.init(Cipher.ENCRYPT_MODE, chaveAES, iv);
 
             byte[] mensagemCriptografada = cipher.doFinal(mensagem.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(mensagemCriptografada);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                return Base64.getEncoder().encodeToString(mensagemCriptografada);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,7 +38,10 @@ public class CriptografiaAES {
             IvParameterSpec iv = new IvParameterSpec(vetorInicializacao.getBytes(StandardCharsets.UTF_8));
             cipher.init(Cipher.DECRYPT_MODE, chaveAES, iv);
 
-            byte[] mensagemDescriptografada = cipher.doFinal(Base64.getDecoder().decode(mensagemCriptografada));
+            byte[] mensagemDescriptografada = new byte[0];
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                mensagemDescriptografada = cipher.doFinal(Base64.getDecoder().decode(mensagemCriptografada));
+            }
             return new String(mensagemDescriptografada, StandardCharsets.UTF_8);
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,13 +49,4 @@ public class CriptografiaAES {
         return null;
     }
 
-    public static void main(String[] args) {
-        String mensagem = "Hello, world!";
-
-        String mensagemCriptografada = criptografar(mensagem);
-        System.out.println("Mensagem criptografada: " + mensagemCriptografada);
-
-        String mensagemDescriptografada = descriptografar(mensagemCriptografada);
-        System.out.println("Mensagem descriptografada: " + mensagemDescriptografada);
-    }
 }
