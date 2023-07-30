@@ -8,15 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.avaliacao1.mensagens.CriptografiaAES;
 import com.example.avaliacao1.pacote.Caminhao;
 import com.example.avaliacao1.pacote.DistanciaTempo;
 import com.example.avaliacao1.pacote.Localizacao;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -42,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private CriptografiaAES criptografiaAES;
     private Caminhao caminhao;
     private Caminhao caminhao2;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             return consumoCombustivel;
     }
 
-    public void enviarDados(){
+    /*public void enviarDados(){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://avancada-3de05-default-rtdb.firebaseio.com/");
         DatabaseReference databaseReference = firebaseDatabase.getReference("Veiculo1");
         try {
@@ -147,10 +157,59 @@ public class MainActivity extends AppCompatActivity {
             Log.d("FireBase", "Error: " + e.getMessage());
         }
     }
-
     public void lerDados(){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://avancada-3de05-default-rtdb.firebaseio.com/");
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Veiculo2");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Veiculo1");
 
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                String valueDescriptografado = criptografiaAES.descriptografar(value);
+                
+                Log.d("TAG", "Value is: " + valueDescriptografado);
+                jsonUtils.readJsonData(valueDescriptografado);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+      });
+    }
+
+     */
+
+    public void enviarDados(){
+            criptografiaAES = new CriptografiaAES();
+            String veiculo1 = criptografiaAES.criptografar(caminhao.getLocalizacao().toString());
+            db.collection("v1").add(veiculo1).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Log.d("firestore","DocumentSnapshot added with ID: " + documentReference.getId());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w("firestore", "Error adding document", e);
+                }
+            });
+    }
+
+    public void lerDados(){
+        db.collection("v1").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d("firestore", document.getId() + " => " + document.getData());
+                    }
+                } else {
+                    Log.w("firestore", "Error getting documents.", task.getException());
+                }
+            }
+        });
     }
 }
