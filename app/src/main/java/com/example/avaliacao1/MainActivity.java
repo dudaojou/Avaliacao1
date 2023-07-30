@@ -20,6 +20,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -146,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             return consumoCombustivel;
     }
 
-    /*public void enviarDados(){
+    public void enviarDados(){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://avancada-3de05-default-rtdb.firebaseio.com/");
         DatabaseReference databaseReference = firebaseDatabase.getReference("Veiculo1");
         try {
@@ -168,8 +173,6 @@ public class MainActivity extends AppCompatActivity {
                 String valueDescriptografado = criptografiaAES.descriptografar(value);
                 
                 Log.d("TAG", "Value is: " + valueDescriptografado);
-                jsonUtils.readJsonData(valueDescriptografado);
-
             }
 
             @Override
@@ -180,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
       });
     }
 
-     */
+     /*
 
     public void enviarDados(){
             criptografiaAES = new CriptografiaAES();
@@ -211,5 +214,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 }

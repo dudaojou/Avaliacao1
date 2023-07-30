@@ -19,6 +19,7 @@ public class MainActivity2 extends AppCompatActivity {
     private TextView textViewsItemServico;
     private TextView textViewsMotorista;
     private Button buttonVoltar;
+    private Button buttonRelatorio;
 
     private ServicoDeTransporte servicoDeTransporte;
 
@@ -33,6 +34,7 @@ public class MainActivity2 extends AppCompatActivity {
         textViewsItemServico = findViewById(R.id.id_itemServico);
         textViewsMotorista = findViewById(R.id.id_motorista);
         buttonVoltar = findViewById(R.id.id_voltar);
+        buttonRelatorio = findViewById(R.id.id_CarregarRel);
 
         buttonVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,19 +45,25 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
+        buttonRelatorio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                servicoDeTransporte = new ServicoDeTransporte();
+                atualizarTextos();
+
+            }
+        });
+
     }
 
     public void atualizarTextos() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+
                 textViewServico.setText(String.valueOf(servicoDeTransporte.getIdServico()));
                 textViewsDtInicio.setText(String.valueOf(servicoDeTransporte.getDataInicio()));
                 textViewsDtFim.setText(String.valueOf(servicoDeTransporte.getDataFim()));
                 textViewsItemServico.setText(String.valueOf(servicoDeTransporte.getItensServicos()));
                 textViewsMotorista.setText(String.valueOf(servicoDeTransporte.getMotoristas()));
 
-            }
-        });
+
     }
 }
