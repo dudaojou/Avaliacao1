@@ -9,9 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.avaliacao1.mensagens.CriptografiaAES;
+import com.example.avaliacao1.mensagens.Criptografia;
 import com.example.avaliacao1.pacote.Caminhao;
 import com.example.avaliacao1.pacote.DistanciaTempo;
 import com.example.avaliacao1.pacote.Localizacao;
@@ -26,11 +27,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textViewLong;
@@ -50,12 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private double tempoPercorrido;
 
     private double tempoInicial;
-
-    private CriptografiaAES criptografiaAES;
+    private FirebaseFirestore db;
+    private Criptografia criptografia;
     private Caminhao caminhao;
-    private Caminhao caminhao2;
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference("Veiculo1");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         buttonComecar = findViewById(R.id.id_Comecar);
         textViewVelEsperada = findViewById(R.id.id_VelEsperada);
         buttonRelatorio = findViewById(R.id.id_relatorio);
+        db = FirebaseFirestore.getInstance();
+        criptografia = new Criptografia(context);
 
         buttonIniciar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -100,8 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
         buttonRelatorio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent in = new Intent(MainActivity.this, MainActivity2.class);
-                startActivity(in);
+                //Intent in = new Intent(MainActivity.this, MainActivity2.class);
+                //startActivity(in);
+
+                escreverDados("dados", "colecao", "documento");
             }
         } );
     }
@@ -118,8 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 textViewConsumoCom.setText(String.valueOf(getConsumoComb(caminhao.getVelocidade())));
                 textViewVelEsperada.setText(String.valueOf(caminhao.getVelocidade()));
                 textViewTemPerc.setText(String.valueOf(tempoPercorrido));
-                enviarDados();
-                lerDados();
             }
         });
     }
@@ -151,36 +158,63 @@ public class MainActivity extends AppCompatActivity {
             return consumoCombustivel;
     }
 
-    public void enviarDados(){
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://avancada-3de05-default-rtdb.firebaseio.com/");
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Veiculo1");
-        try {
-            criptografiaAES = new CriptografiaAES();
-            String veiculo1 = criptografiaAES.criptografar(caminhao.getLocalizacao().toString());
-            databaseReference.setValue(veiculo1);
-        }catch (Exception e){
-            Log.d("FireBase", "Error: " + e.getMessage());
-        }
+    public void escreverDados(String textoCriptografado,String colection, String document) {
+        Map<String, Object> user = new HashMap<>();
+
+        user.put("PublicKey", criptografia.getPublicKeyString());
+        //Log.d("PublicKey",criptografia.getPublicKeyString());
+        user.put("mensagem", textoCriptografado);
+        db.collection(colection)
+                .document(document)
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("valorReal", "DocumentSnapshot added successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("valorReal", "Error adding document", e);
+                    }
+                });
     }
-    public void lerDados(){
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://avancada-3de05-default-rtdb.firebaseio.com/");
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Veiculo1");
+    String aux = "";
+    public String lerDados(String collectionName,String documentNames) {
+        String documentName =documentNames;
+        final String[] textoCriptografado = {""};
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-                String valueDescriptografado = criptografiaAES.descriptografar(value);
-                
-                Log.d("TAG", "Value is: " + valueDescriptografado);
-            }
+        db.collection(collectionName)
+                .document(documentNames)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot,
+                                        @Nullable FirebaseFirestoreException e) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException());
-            }
-      });
+                        if (e != null) {
+                            Log.w("valorReal", "Listen failed.", e);
+                            return;
+                        }
+
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+
+                            Log.d("valorReal", "Current data: " + documentSnapshot.getData());
+                            Object criptografadosObj = documentSnapshot.get("mensagem");
+                            if (criptografadosObj != null) {
+                                aux =  criptografadosObj.toString();
+                                //criptografia.descriptografarTexto(textoCriptografado[0]);
+                                Log.d("valorRealdovalor", "Current data: " +aux);
+
+                            } } else {
+                            Log.d("valorReal", "Current data: null");
+                        }
+                    }
+                });
+
+        Log.d("valorRealdovalor1", "Current data: " + aux);
+        String aux2 = aux;
+        return aux2;
     }
 
      /*
