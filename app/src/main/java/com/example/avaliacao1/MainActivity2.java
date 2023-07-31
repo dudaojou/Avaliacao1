@@ -64,6 +64,5 @@ public class MainActivity2 extends AppCompatActivity {
                 textViewsItemServico.setText(String.valueOf(servicoDeTransporte.getItensServicos()));
                 textViewsMotorista.setText(String.valueOf(servicoDeTransporte.getMotoristas()));
 
-
     }
 }

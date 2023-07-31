@@ -26,10 +26,10 @@ public class Criptografia {
     private static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 1;
 
     @SuppressLint("SdCardPath")
-    private static final String PATH_CHAVE_PRIVADA ="/data/data/files/privates.key";
+    private static final String PATH_CHAVE_PRIVADA ="/data/data/com.example.avaliacao1/files/privates.key";
 
     @SuppressLint("SdCardPath")
-    private static final String PATH_CHAVE_PUBLICA = "/data/data/files/publics.key";
+    private static final String PATH_CHAVE_PUBLICA = "/data/data/com.example.avaliacao1/files/publics.key";
 
     private ObjectInputStream inputStream = null;
 
@@ -124,6 +124,7 @@ public class Criptografia {
         }
         return null;
     }
+
     public String descriptografarTexto(String textoCriptografado){
         try {
             Log.d("Entrei Na descriptografia", textoCriptografado);

@@ -8,6 +8,32 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView17"
+        android:layout_width="118dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Mensagem:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/id_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="20dp"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/id_Lat"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
         android:id="@+id/textView6"
         android:layout_width="164dp"
         android:layout_height="54dp"
@@ -144,7 +170,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="164dp"
         android:text="Dados Veículo"
         android:textColor="#000000"
         android:textSize="34sp"
@@ -237,20 +263,15 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/id_Comecar"
-        android:layout_width="110dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="124dp"
-        android:layout_marginEnd="32dp"
+        android:id="@+id/id_relatorio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="288dp"
+        android:layout_marginTop="172dp"
         android:backgroundTint="#FF0303"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:text="Começar Viagem"
+        android:text="Relatório"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.149"
-        app:layout_constraintStart_toEndOf="@+id/id_Iniciar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:ignore="MissingConstraints" />
 
@@ -258,8 +279,8 @@
         android:id="@+id/id_Iniciar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="124dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="172dp"
         android:backgroundTint="#FF0303"
         android:text="Iniciar"
         android:textColor="#000000"
@@ -268,15 +289,20 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/id_relatorio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="284dp"
-        android:layout_marginTop="124dp"
+        android:id="@+id/id_Comecar"
+        android:layout_width="110dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="172dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="#FF0303"
-        android:text="Relatório"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="Começar Viagem"
         android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintStart_toEndOf="@+id/id_Iniciar"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:ignore="MissingConstraints" />
 
